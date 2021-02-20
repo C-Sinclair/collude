@@ -1,5 +1,6 @@
 import { push } from "svelte-spa-router";
 import { Firestore } from "./firebase";
+import Asset from "./asset";
 
 /**
  * @typedef {Object} Board
@@ -11,28 +12,74 @@ import { Firestore } from "./firebase";
 
 const collection = Firestore.collection("boards");
 
+/**
+ *
+ * @param {Partial<Board>} arg
+ */
 async function create({ name }) {
   const res = await collection.add({
     name,
     assets: [],
     created: new Date(),
   });
-  console.log("created board", res);
   push(`/board/${res.id}`);
 }
 
 /**
- * @returns {Board[]} -- list of boards
+ * @returns {Promise<Board[]>} -- list of boards
  */
 async function fetch() {
-  console.log("fetching");
   const res = await collection.get();
   const boards = res.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
-  console.log("fetched", boards);
   return boards;
 }
 
-export { create, fetch };
+/**
+ *
+ * @param {string} id
+ * @returns {Promise<Board>}
+ */
+async function get(id) {
+  const board = await collection.doc(id).get();
+  const data = board.data();
+  return {
+    ...data,
+    id: board.id,
+  };
+}
+
+/**
+ * @param {Board} board
+ */
+async function update(id, board) {
+  await collection.doc(id).update(board);
+}
+
+/**
+ * Add a single asset to a board
+ * @param {Board} board -- board to add to
+ * @param {string} asset -- the id relation to the asset collection
+ */
+async function addAsset(board, assetId) {
+  const currentAssets = board.assets || [];
+  await update(board.id, {
+    assets: [...currentAssets, assetId],
+  });
+}
+
+/**
+ * @param {Board} board
+ * @returns {Promise<import("./asset").Asset[]>}
+ */
+async function getAssets(board) {
+  console.log(`fetching assets for ${board.id}`);
+  const assets = await Asset.getMany(board.assets);
+  console.log(`fetched assets`, assets);
+  await Asset.preload(assets);
+  return assets;
+}
+
+export default { create, fetch, get, update, addAsset, getAssets };

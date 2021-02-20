@@ -1,9 +1,10 @@
 <script>
   import { onMount } from "svelte";
+  import board from "../stores/board";
   import RecordButton from "../components/buttons/Record.svelte";
   import UploadButton from "../components/buttons/Upload.svelte";
   import EditNameModal from "../components/modals/EditName.svelte";
-  import board from "../stores/board";
+  import AssetsDrawer from "../components/AssetsDrawer.svelte";
 
   export let params = {};
 
@@ -19,6 +20,8 @@
 </script>
 
 <h1 on:click={editName}>{$board ? $board.name : "Board"}</h1>
+
+<AssetsDrawer />
 
 <footer>
   <RecordButton />

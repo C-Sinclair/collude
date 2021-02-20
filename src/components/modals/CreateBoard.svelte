@@ -1,5 +1,5 @@
 <script>
-  import { create } from "../../lib/board";
+  import Board from "../../lib/board";
   import Modal from "./Modal.svelte";
 
   export let open = false;
@@ -12,7 +12,7 @@
     if (name.length === 0) {
       return; // error
     }
-    await create({ name });
+    await Board.create({ name });
   };
 </script>
 

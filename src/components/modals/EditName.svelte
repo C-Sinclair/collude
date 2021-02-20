@@ -12,7 +12,7 @@
     if (name.length === 0) {
       return; // error
     }
-    await board.update({ name, id });
+    await board.update(id, { name });
     onClose();
   };
 </script>

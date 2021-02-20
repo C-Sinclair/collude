@@ -1,5 +1,5 @@
 <script>
-  import { upload } from "../../lib/files";
+  import Asset from "../../lib/asset";
   import board from "../../stores/board";
   import UploadIcon from "../icons/Upload.svelte";
 
@@ -7,10 +7,8 @@
 
   const onFileSelected = async (e) => {
     const file = e.target.files[0];
-    console.log({ file });
-    const url = await upload(file);
-    console.log({ url });
-    board.addAsset(url);
+    const id = await Asset.create(file);
+    board.addAssetToCurrent(id);
   };
 </script>
 
@@ -18,9 +16,8 @@
   on:click={() => {
     fileInput.click();
   }}
-  on:change={(e) => onFileSelected(e)}
 >
   <UploadIcon />
 </button>
 
-<input type="file" bind:this={fileInput} />
+<input type="file" bind:this={fileInput} on:change={onFileSelected} />

@@ -1,14 +1,13 @@
 <script>
   import { push } from "svelte-spa-router";
-  import { fetch } from "../lib/board";
+  import Board from "../lib/board";
 
   const onBoardClick = (board) => () => {
-    console.log(board);
     push(`/board/${board.id}`);
   };
 </script>
 
-{#await fetch()}
+{#await Board.fetch()}
   <p>Loading boards</p>
 {:then boards}
   <ul>

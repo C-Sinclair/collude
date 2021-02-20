@@ -1,6 +1,7 @@
-import { derived, writable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
+import Board from "../lib/board";
 import { Firestore } from "../lib/firebase";
-import AssetCache from "../lib/assets";
+import Player from "../lib/player";
 
 /**
  * @typedef {import("../lib/board").Board} Board
@@ -30,39 +31,27 @@ const board = derived(selectedBoard, async ($selected, set) => {
     const record = await doc.get();
     const data = record.data();
     set({ ...data, id: $selected });
-    AssetCache.create(data.assets);
+    Player.create(data.assets);
     doc.onSnapshot((snapshot) => {
-      console.log({ snapshot });
       const data = snapshot.data();
       set({ ...data, id: $selected });
-      AssetCache.create(data.assets);
+      Player.create(data.assets);
     });
   }
 });
 
 /**
- * @param {Board} board
+ * Add a single asset to the board
+ * @param {string} asset -- the id relation to the asset collection
  */
-async function update(board) {
-  console.log("updating board", board);
-  await collection.doc(board.id).update(board);
-}
-
-/**
- * Add a single asset url to the board
- * @param {string} url
- */
-async function addAsset(url) {
-  const doc = collection.doc(board.id);
-  const board = await doc.get();
-  await update({
-    assets: [...board.data().assets.url],
-  });
+async function addAssetToCurrent(assetId) {
+  const id = get(selectedBoard);
+  const board = await Board.get(id);
+  await Board.addAsset(board, assetId);
 }
 
 export default {
   select,
-  update,
-  addAsset,
+  addAssetToCurrent,
   subscribe: board.subscribe,
 };
