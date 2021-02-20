@@ -20,6 +20,7 @@
   "dependencies": {
     "firebase": "^8.2.8",
     "svelte": "^3.24.0",
+    "svelte-spa-router": "^3.1.0",
     "tone": "^14.7.77"
   }
 }
