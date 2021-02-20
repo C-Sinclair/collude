@@ -9,7 +9,7 @@
   import NotFound from "../pages/NotFound.svelte";
 
   import Avatar from "../components/Avatar.svelte";
-  import HomeButton from "../components/HomeButton.svelte";
+  import HomeButton from "../components/buttons/Home.svelte";
 
   const routes = {
     "/": Home,
@@ -20,6 +20,15 @@
   };
 </script>
 
-<HomeButton />
-<Avatar />
-<Router {routes} />
+<main>
+  <HomeButton />
+  <Avatar />
+  <Router {routes} />
+</main>
+
+<style>
+  main {
+    padding: 20px;
+    width: calc(100vw - 40px);
+  }
+</style>

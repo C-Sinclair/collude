@@ -1,7 +1,9 @@
 <script>
-  import { create } from "../lib/board";
+  import { create } from "../../lib/board";
+  import Modal from "./Modal.svelte";
 
   export let open = false;
+  export let onClose;
 
   let name = "";
 
@@ -14,11 +16,11 @@
   };
 </script>
 
-<dialog {open}>
+<Modal {open} {onClose}>
   <h1>Create Board</h1>
   <form on:submit={submit}>
     <label for="name">Name</label>
     <input id="name" bind:value={name} />
     <button type="submit">Create</button>
   </form>
-</dialog>
+</Modal>

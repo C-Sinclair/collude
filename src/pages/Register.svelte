@@ -28,21 +28,19 @@
   };
 </script>
 
-<main>
-  <h1>Register</h1>
+<h1>Register</h1>
 
-  <form on:submit={submit}>
-    <div>
-      {#if error}
-        <p>{error}</p>
-      {/if}
-    </div>
-    <label for="email">Email</label>
-    <input id="email" bind:value={email} />
-    <label for="password">Password</label>
-    <input id="password" type="password" bind:value={password} />
-    <label for="password-repeat">Confirm Password</label>
-    <input id="password-repeat" type="password" bind:value={passwordConfirm} />
-    <button type="submit">Register Account</button>
-  </form>
-</main>
+<form on:submit={submit}>
+  <div>
+    {#if error}
+      <p>{error}</p>
+    {/if}
+  </div>
+  <label for="email">Email</label>
+  <input id="email" bind:value={email} />
+  <label for="password">Password</label>
+  <input id="password" type="password" bind:value={password} />
+  <label for="password-repeat">Confirm Password</label>
+  <input id="password-repeat" type="password" bind:value={passwordConfirm} />
+  <button type="submit">Register Account</button>
+</form>

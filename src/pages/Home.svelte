@@ -1,6 +1,6 @@
 <script>
   import { link } from "svelte-spa-router";
-  import CreateBoardModal from "../components/CreateBoardModal.svelte";
+  import CreateBoardModal from "../components/modals/CreateBoard.svelte";
   import BoardList from "../components/BoardList.svelte";
   import user from "../stores/user";
 
@@ -11,7 +11,7 @@
   };
 </script>
 
-<main>
+<div class="content">
   <h1>Home</h1>
 
   {#if $user}
@@ -19,13 +19,16 @@
   {:else}
     <a use:link href="/login">Time to log in?</a>
   {/if}
+</div>
 
-  <button on:click={createBoard} title="Add a new board">+</button>
-</main>
+<button on:click={createBoard} title="Add a new board">+</button>
 
 <CreateBoardModal open={showCreate} />
 
 <style>
+  .content {
+    padding: 4em;
+  }
   button {
     width: 40px;
     height: 40px;

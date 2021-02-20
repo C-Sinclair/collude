@@ -1,58 +1,68 @@
-import { writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { Firestore } from "../lib/firebase";
 import AssetCache from "../lib/assets";
+
+/**
+ * @typedef {import("../lib/board").Board} Board
+ * @typedef {import('svelte/store').Readable<Board>} ReadableBoard
+ */
 
 const collection = Firestore.collection("boards");
 
 /**
- *
+ * @type {import('svelte/store').Writable<string>}
+ */
+const selectedBoard = writable();
+
+/**
  * @param {string} id
  */
-async function createBoardStore(id) {
-  const store = writable({});
-  const doc = collection.doc(id);
-  // set initial data
-  const data = await doc.get();
-  store.set(data);
-  // subscribe to data changes
-  const sub$ = doc.onSnapshot(
-    (snapshot) => {
-      // snapshot.docChanges().forEach((change) => {
-      //   // Need to check that data is the full data or just partial
-      //   const data = change.doc.data();
-      //   if (change.type === "added") {
-      //     console.log("Added: ", data);
-      //     store.set(data);
-      //     AssetCache.create(data);
-      //   }
-      //   if (change.type === "modified") {
-      //     console.log("Modified: ", data);
-      //     store.set(data);
-      //   }
-      //   if (change.type === "removed") {
-      //     console.log("Removed: ", data);
-      //     // error state ? should'nt be on a board when it is removed
-      //     store.set(data);
-      //   }
-      // });
-
-      // or maybe just a full overwrite ?
-      const data = snapshot.data();
-      store.set(data);
-      AssetCache.create(data);
-    },
-    (error) => {
-      console.log({ error });
-    }
-  );
-  const update = (board) => {
-    store.set(board);
-    doc.update(board);
-  };
-  return {
-    subscribe: store.subscribe,
-    update,
-  };
+function select(id) {
+  selectedBoard.set(id);
 }
 
-export default createBoardStore;
+/**
+ * @type {ReadableBoard}
+ */
+const board = derived(selectedBoard, async ($selected, set) => {
+  if ($selected) {
+    const doc = collection.doc($selected);
+    const record = await doc.get();
+    const data = record.data();
+    set({ ...data, id: $selected });
+    AssetCache.create(data.assets);
+    doc.onSnapshot((snapshot) => {
+      console.log({ snapshot });
+      const data = snapshot.data();
+      set({ ...data, id: $selected });
+      AssetCache.create(data.assets);
+    });
+  }
+});
+
+/**
+ * @param {Board} board
+ */
+async function update(board) {
+  console.log("updating board", board);
+  await collection.doc(board.id).update(board);
+}
+
+/**
+ * Add a single asset url to the board
+ * @param {string} url
+ */
+async function addAsset(url) {
+  const doc = collection.doc(board.id);
+  const board = await doc.get();
+  await update({
+    assets: [...board.data().assets.url],
+  });
+}
+
+export default {
+  select,
+  update,
+  addAsset,
+  subscribe: board.subscribe,
+};

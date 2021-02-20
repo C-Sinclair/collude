@@ -1,19 +1,56 @@
 <script>
   import { onMount } from "svelte";
-  import createBoardStore from "../stores/board";
+  import RecordButton from "../components/buttons/Record.svelte";
+  import UploadButton from "../components/buttons/Upload.svelte";
+  import EditNameModal from "../components/modals/EditName.svelte";
+  import board from "../stores/board";
 
   export let params = {};
-  let board;
 
-  onMount(async () => {
-    board = await createBoardStore(params.id);
-    createSeq(board);
+  let showEditName = false;
+
+  onMount(() => {
+    board.select(params.id);
   });
+
+  const editName = () => {
+    showEditName = true;
+  };
 </script>
 
-<main>
-  <h1>Board</h1>
-  <span>{params.id}</span>
+<h1 on:click={editName}>{$board ? $board.name : "Board"}</h1>
 
-  {board.toString()}
-</main>
+<footer>
+  <RecordButton />
+
+  <div>Timeline</div>
+
+  <UploadButton />
+</footer>
+
+<EditNameModal
+  open={showEditName}
+  onClose={() => {
+    showEditName = false;
+  }}
+/>
+
+<style>
+  h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    cursor: text;
+  }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100vw - 20px);
+    height: 50px;
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    background: var(--foreground-colour);
+    padding: 10px;
+  }
+</style>
