@@ -13,12 +13,9 @@
 
 <style>
   button {
-    position: fixed;
-    top: 10px;
-    left: 10px;
     outline: none;
     border: unset;
     background-color: unset;
-    cursor: crosshair;
+    cursor: pointer;
   }
 </style>

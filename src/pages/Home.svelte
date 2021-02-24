@@ -1,7 +1,7 @@
 <script>
   import { link } from "svelte-spa-router";
   import CreateBoardModal from "../components/modals/CreateBoard.svelte";
-  import BoardList from "../components/BoardList.svelte";
+  import BoardList from "../components/lists/BoardList.svelte";
   import user from "../stores/user";
 
   let showCreate;

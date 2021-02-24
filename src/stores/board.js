@@ -2,6 +2,7 @@ import * as Tone from "tone";
 import { derived, get, writable } from "svelte/store";
 import Board from "../lib/data/board";
 import Player from "../lib/player";
+import asset from "../lib/data/asset";
 
 /**
  * @typedef {import("../lib/data/board").Board} Board
@@ -29,15 +30,17 @@ const board = derived(selectedBoard, async ($selected, set) => {
     const record = await doc.get();
     const data = record.data();
     set({ ...data, id: $selected });
-    Player.create(data.assets);
+    const assets = await Promise.all(data.assets.map(asset.get));
+    await Promise.all(assets.map(Player.create));
     if (data.bpm) {
       Tone.Transport.bpm.value = data.bpm;
     }
 
-    doc.onSnapshot((snapshot) => {
+    doc.onSnapshot(async (snapshot) => {
       const data = snapshot.data();
       set({ ...data, id: $selected });
-      Player.create(data.assets);
+      const assets = await Promise.all(data.assets.map(asset.get));
+      await Promise.all(assets.map(Player.create));
       if (data.bpm) {
         Tone.Transport.bpm.value = data.bpm;
       }

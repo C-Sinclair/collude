@@ -2,7 +2,7 @@ import { derived } from "svelte/store";
 import { Player } from "tone";
 import Asset from "../lib/data/asset";
 import { fixedArray } from "../lib/util/array";
-import tracks from "../stores/track";
+import tracks from "./track";
 
 /**
  * 16 bar array of arrays of players

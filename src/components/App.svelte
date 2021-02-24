@@ -1,15 +1,12 @@
 <script>
-  import { onMount } from "svelte";
   import Router from "svelte-spa-router";
-
   import Login from "../pages/Login.svelte";
   import Register from "../pages/Register.svelte";
   import Home from "../pages/Home.svelte";
   import Board from "../pages/Board.svelte";
   import NotFound from "../pages/NotFound.svelte";
-
-  import Avatar from "../components/Avatar.svelte";
-  import HomeButton from "../components/buttons/Home.svelte";
+  import Avatar from "./layout/Avatar.svelte";
+  import Sidebar from "./layout/Sidebar.svelte";
 
   const routes = {
     "/": Home,
@@ -21,14 +18,21 @@
 </script>
 
 <main>
-  <HomeButton />
+  <Sidebar />
   <Avatar />
   <Router {routes} />
 </main>
 
 <style>
   main {
-    padding: 20px;
-    width: calc(100vw - 40px);
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    grid-template-rows: 50px 1fr 70px;
+    grid-template-areas:
+      "sidebar title"
+      "sidebar body"
+      "footer footer";
   }
 </style>

@@ -21,3 +21,9 @@
 </button>
 
 <input type="file" bind:this={fileInput} on:change={onFileSelected} />
+
+<style>
+  input {
+    display: none;
+  }
+</style>

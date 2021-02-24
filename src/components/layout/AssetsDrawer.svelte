@@ -1,10 +1,10 @@
 <script>
-  import assets from "../stores/assets";
-  import Play from "./icons/Play.svelte";
-  import Player from "../lib/player";
+  import assets from "../../stores/assets";
+  import Play from "../icons/Play.svelte";
+  import Player from "../../lib/player";
 
-  const onPlay = (asset) => async () => {
-    const player = await Player.get(asset);
+  const onPlay = (asset) => () => {
+    const player = Player.get(asset);
     player.start();
   };
 </script>
@@ -29,6 +29,9 @@
   section {
     background-color: var(--foreground-colour);
     max-width: 300px;
+    position: fixed;
+    top: 100px;
+    left: 40px;
   }
   ul {
     list-style: none;

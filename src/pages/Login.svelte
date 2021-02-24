@@ -26,17 +26,28 @@
 
 <h1>Login</h1>
 
-<form on:submit={submit}>
-  <div>
-    {#if error}
-      <p>{error}</p>
-    {/if}
-  </div>
-  <label for="email">Email</label>
-  <input id="email" bind:value={email} />
-  <label for="password">Password</label>
-  <input id="password" type="password" bind:value={password} />
-  <button type="submit">Login</button>
-</form>
+<div class="content">
+  <form on:submit={submit}>
+    <div>
+      {#if error}
+        <p>{error}</p>
+      {/if}
+    </div>
+    <label for="email">Email</label>
+    <input id="email" bind:value={email} />
+    <label for="password">Password</label>
+    <input id="password" type="password" bind:value={password} />
+    <button type="submit">Login</button>
+  </form>
 
-<a use:link href={"/register"}>Or Register...</a>
+  <a use:link href={"/register"}>Or Register...</a>
+</div>
+
+<style>
+  h1 {
+    grid-area: title;
+  }
+  .content {
+    grid-area: body;
+  }
+</style>

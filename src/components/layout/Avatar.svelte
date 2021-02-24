@@ -1,6 +1,6 @@
 <script>
   import { push } from "svelte-spa-router";
-  import user from "../stores/user";
+  import user from "../../stores/user";
 
   const onClick = () => {
     push("/login");

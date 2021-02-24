@@ -1,6 +1,6 @@
 <script>
   import { push } from "svelte-spa-router";
-  import Board from "../lib/data/board";
+  import Board from "../../lib/data/board";
 
   const onBoardClick = (board) => () => {
     push(`/board/${board.id}`);

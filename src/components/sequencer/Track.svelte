@@ -42,8 +42,7 @@
 
 <style>
   article {
-    display: flex;
-    align-items: center;
+    display: grid;
     max-width: calc(100vw - 40px);
     overflow-y: scroll;
     border: 1px solid var(--border-colour);
