@@ -6,6 +6,7 @@ import Board from "../lib/data/board";
  * @type {import("svelte/store").Readable<import("../lib/data/asset").Asset[]>}
  */
 const boardAssets = derived(board, async ($board, set) => {
+  set([]);
   if ($board) {
     const assets = await Board.getAssets($board);
     set(assets);

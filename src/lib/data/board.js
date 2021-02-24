@@ -9,7 +9,7 @@ import Asset from "./asset";
  * @property {Date} Board.created
  * @property {string[]} Board.assets
  * @property {number} Board.bpm
- * @property {{ id: string, index: number }[]} Board.tracks
+ * @property {string[]} Board.tracks
  */
 
 const collection = Firestore.collection("boards");

@@ -1,13 +1,28 @@
 <script>
+  import Track from "../../lib/data/track";
   import Step from "./Step.svelte";
 
+  export let id;
   export let name;
   export let sample;
+  export let volume;
+  export let sequence;
 
-  const steps = Array.from({ length: 8 }).map(() => ({ on: false }));
+  const LENGTH = 8;
 
-  function handleStepOn(e) {
-    console.log(e);
+  $: steps = Array.from({ length: LENGTH }).map((_, i) => ({
+    on: sequence[i] > 0,
+  }));
+
+  /**
+   *
+   * @param {CustomEvent} e
+   */
+  async function handleStepChange(e) {
+    const { index, value } = e.detail;
+    const newValue = steps.map((s, i) => (i === index ? value : s.on));
+    console.log({ newValue });
+    await Track.update(id, { sequence: newValue });
   }
 </script>
 
@@ -15,11 +30,13 @@
   <header>
     <h6>{name}</h6>
     <p>{sample}</p>
+    <p>Vol</p>
+    <p>{volume}</p>
   </header>
 
   <div class="content">
     {#each steps as step, i}
-      <Step on:stepOn={handleStepOn} on={step.on} index={i} />
+      <Step on:stepOn={handleStepChange} on={step.on} index={i} />
     {/each}
   </div>
 </article>

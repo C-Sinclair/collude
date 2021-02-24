@@ -1,16 +1,12 @@
 <script>
   import Track from "./Track.svelte";
+  import tracks from "../../stores/track";
 
-  const tracks = [
-    {
-      name: "Track 1",
-      sample: "ID1",
-    },
-  ];
+  $: ordered = $tracks.sort((a, b) => a.index - b.index);
 </script>
 
 <section>
-  {#each tracks as { name, sample }}
-    <Track {name} {sample} />
+  {#each ordered as track}
+    <Track {...track} />
   {/each}
 </section>

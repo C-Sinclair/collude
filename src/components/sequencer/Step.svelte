@@ -6,13 +6,12 @@
 
   const dispatch = createEventDispatcher();
 
-  const toggleOn = () => {
-    console.log("dispatching");
-    dispatch("stepOn", { index });
+  const toggle = () => {
+    dispatch("stepOn", { index, value: on ? 0 : 1 });
   };
 </script>
 
-<div class:on on:click={toggleOn}>
+<div class:on on:click={toggle}>
   {index + 1}
 </div>
 
