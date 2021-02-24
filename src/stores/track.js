@@ -17,7 +17,6 @@ const tracks = derived(board, async ($board, set) => {
   if ($board) {
     const { tracks } = $board;
     if (tracks.length > 0) {
-      console.log({ tracks });
       const res = Track.collection.where(
         firebase.firestore.FieldPath.documentId(),
         "in",

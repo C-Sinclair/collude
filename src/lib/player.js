@@ -9,8 +9,12 @@ const assets = new Map();
 /**
  * Creates a player from an asset
  * @param {Asset} asset
+ * @returns {Promise<Player>}
  */
 async function create({ id, url }) {
+  if (assets.has(id)) {
+    return Promise.resolve(assets.get(id));
+  }
   return new Promise((resolve) => {
     const buffer = new Player(url, () => {
       assets.set(id, buffer);
@@ -23,7 +27,7 @@ async function create({ id, url }) {
  *
  * @param {Asset} asset
  */
-async function get({ id }) {
+function get({ id }) {
   return assets.get(id);
 }
 

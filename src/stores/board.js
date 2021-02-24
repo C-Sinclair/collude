@@ -1,3 +1,4 @@
+import * as Tone from "tone";
 import { derived, get, writable } from "svelte/store";
 import Board from "../lib/data/board";
 import Player from "../lib/player";
@@ -29,14 +30,17 @@ const board = derived(selectedBoard, async ($selected, set) => {
     const data = record.data();
     set({ ...data, id: $selected });
     Player.create(data.assets);
-    console.log({ data });
+    if (data.bpm) {
+      Tone.Transport.bpm.value = data.bpm;
+    }
 
     doc.onSnapshot((snapshot) => {
       const data = snapshot.data();
       set({ ...data, id: $selected });
       Player.create(data.assets);
-
-      console.log({ data });
+      if (data.bpm) {
+        Tone.Transport.bpm.value = data.bpm;
+      }
     });
   }
 });

@@ -1,5 +1,6 @@
 <script>
   import board from "../stores/board";
+  import playing from "../stores/playing";
   import RecordButton from "../components/buttons/Record.svelte";
   import UploadButton from "../components/buttons/Upload.svelte";
   import EditNameModal from "../components/modals/EditName.svelte";
@@ -8,8 +9,8 @@
   import Sequencer from "../components/sequencer/Sequencer.svelte";
 
   export let params = {};
-  let showEditName,
-    showBpm = false;
+  let showEditName = false;
+  let showBpm = false;
 
   $: params, board.select(params.id);
 
@@ -31,6 +32,10 @@
 <AssetsDrawer />
 
 <Sequencer />
+
+<button on:click={$playing ? playing.pause : playing.play}>
+  {$playing ? "Pause" : "Play"}
+</button>
 
 <footer>
   <RecordButton />

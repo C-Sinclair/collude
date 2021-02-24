@@ -1,6 +1,8 @@
 <script>
   import Track from "../../lib/data/track";
   import Step from "./Step.svelte";
+  import playing from "../../stores/playing";
+  import step from "../../stores/step";
 
   export let id;
   export let name;
@@ -11,7 +13,7 @@
   const LENGTH = 8;
 
   $: steps = Array.from({ length: LENGTH }).map((_, i) => ({
-    on: sequence[i] > 0,
+    on: sequence[i] && sequence[i] > 0,
   }));
 
   /**
@@ -21,7 +23,6 @@
   async function handleStepChange(e) {
     const { index, value } = e.detail;
     const newValue = steps.map((s, i) => (i === index ? value : s.on));
-    console.log({ newValue });
     await Track.update(id, { sequence: newValue });
   }
 </script>
@@ -35,8 +36,13 @@
   </header>
 
   <div class="content">
-    {#each steps as step, i}
-      <Step on:stepOn={handleStepChange} on={step.on} index={i} />
+    {#each steps as { on }, i}
+      <Step
+        on:stepOn={handleStepChange}
+        {on}
+        index={i}
+        isPlaying={$playing && $step === i}
+      />
     {/each}
   </div>
 </article>

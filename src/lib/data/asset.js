@@ -30,7 +30,7 @@ async function create(file) {
 }
 
 /**
- * @returns {Asset[]} -- list of all assets
+ * @returns {Promise<Asset[]>} -- list of all assets
  */
 async function fetch() {
   const res = await collection.get();
@@ -44,7 +44,7 @@ async function fetch() {
 /**
  *
  * @param {string[]} ids
- * @returns {Asset[]}
+ * @returns {Promise<Asset[]>}
  */
 async function getMany(ids) {
   if (ids && ids.length > 0) {
@@ -63,7 +63,7 @@ async function getMany(ids) {
 /**
  *
  * @param {string} id
- * @returns {Asset}
+ * @returns {Promise<Asset>}
  */
 async function get(id) {
   const asset = await collection.doc(id).get();
@@ -77,7 +77,7 @@ async function get(id) {
 /**
  * @template {Asset | Asset[]} A
  * @param {A} asset
- * @returns {Tone.Player | Tone.Player[]}
+ * @returns {Promise<Tone.Player | Tone.Player[]>}
  */
 async function preload(asset) {
   if (Array.isArray(asset)) {

@@ -3,6 +3,7 @@
 
   export let index;
   export let on;
+  export let isPlaying;
 
   const dispatch = createEventDispatcher();
 
@@ -11,7 +12,7 @@
   };
 </script>
 
-<div class:on on:click={toggle}>
+<div class:on class:isPlaying on:click={toggle}>
   {index + 1}
 </div>
 
@@ -32,5 +33,8 @@
   }
   .on {
     background-color: var(--on-pad-colour);
+  }
+  .isPlaying {
+    background-color: var(--playing-pad-colour);
   }
 </style>
