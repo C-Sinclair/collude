@@ -1,9 +1,8 @@
 import { derived } from "svelte/store";
 import { Player } from "tone";
 import Asset from "../lib/data/asset";
+import { fixedArray } from "../lib/util/array";
 import tracks from "../stores/track";
-
-const fixedArray = Array.from({ length: 16 }).map(() => null);
 
 /**
  * 16 bar array of arrays of players

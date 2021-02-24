@@ -21,7 +21,6 @@ const collection = Firestore.collection("tracks");
  * @param {Track} track
  */
 async function update(id, track) {
-  console.log(`updating track ${id} with ${JSON.stringify(track)}`);
   await collection.doc(id).update(track);
 }
 

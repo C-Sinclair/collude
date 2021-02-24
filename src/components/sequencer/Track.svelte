@@ -10,19 +10,13 @@
   export let volume;
   export let sequence;
 
-  const LENGTH = 8;
-
-  $: steps = Array.from({ length: LENGTH }).map((_, i) => ({
-    on: sequence[i] && sequence[i] > 0,
-  }));
-
   /**
    *
    * @param {CustomEvent} e
    */
   async function handleStepChange(e) {
     const { index, value } = e.detail;
-    const newValue = steps.map((s, i) => (i === index ? value : s.on));
+    const newValue = sequence.map((s, i) => (i === index ? value : s));
     await Track.update(id, { sequence: newValue });
   }
 </script>
@@ -30,13 +24,12 @@
 <article>
   <header>
     <h6>{name}</h6>
-    <p>{sample}</p>
     <p>Vol</p>
     <p>{volume}</p>
   </header>
 
   <div class="content">
-    {#each steps as { on }, i}
+    {#each sequence as on, i}
       <Step
         on:stepOn={handleStepChange}
         {on}
