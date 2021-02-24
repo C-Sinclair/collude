@@ -12,7 +12,7 @@
 </script>
 
 <div class="content">
-  <h1>Home</h1>
+  <h1>Collude.</h1>
 
   {#if $user}
     <BoardList />

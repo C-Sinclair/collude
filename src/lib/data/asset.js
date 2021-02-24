@@ -1,7 +1,7 @@
 import firebase from "firebase";
-import { Firestore } from "./firebase";
-import { upload } from "./files";
-import Player from "./player";
+import { Firestore } from "../firebase";
+import { upload } from "../files";
+import Player from "../player";
 import * as Tone from "tone";
 
 /**
@@ -48,11 +48,9 @@ async function fetch() {
  */
 async function getMany(ids) {
   if (ids && ids.length > 0) {
-    console.log(`with get assets in `, ids);
     const res = await collection
       .where(firebase.firestore.FieldPath.documentId(), "in", ids)
       .get();
-    console.log(`received `, res.docs);
     const assets = res.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,

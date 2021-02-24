@@ -1,7 +1,7 @@
 import { Player } from "tone";
 
 /**
- * @typedef {import("./asset").Asset} Asset
+ * @typedef {import("./data/asset").Asset} Asset
  * @type {Map<string, Player>}
  */
 const assets = new Map();

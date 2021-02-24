@@ -1,5 +1,5 @@
 <script>
-  import Asset from "../../lib/asset";
+  import Asset from "../../lib/data/asset";
   import board from "../../stores/board";
   import UploadIcon from "../icons/Upload.svelte";
 

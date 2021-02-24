@@ -1,5 +1,5 @@
 <script>
-  import Board from "../../lib/board";
+  import Board from "../../lib/data/board";
   import Modal from "./Modal.svelte";
 
   export let open = false;

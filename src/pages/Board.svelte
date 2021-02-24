@@ -1,27 +1,36 @@
 <script>
-  import { onMount } from "svelte";
   import board from "../stores/board";
   import RecordButton from "../components/buttons/Record.svelte";
   import UploadButton from "../components/buttons/Upload.svelte";
   import EditNameModal from "../components/modals/EditName.svelte";
+  import BpmModal from "../components/modals/Bpm.svelte";
   import AssetsDrawer from "../components/AssetsDrawer.svelte";
+  import Sequencer from "../components/sequencer/Sequencer.svelte";
 
   export let params = {};
+  let showEditName,
+    showBpm = false;
 
-  let showEditName = false;
-
-  onMount(() => {
-    board.select(params.id);
-  });
+  $: params, board.select(params.id);
 
   const editName = () => {
     showEditName = true;
+  };
+  const editBpm = () => {
+    showBpm = true;
   };
 </script>
 
 <h1 on:click={editName}>{$board ? $board.name : "Board"}</h1>
 
+{#if $board}
+  <label for="bpm">BPM</label>
+  <h6 on:click={editBpm}>{$board.bpm}</h6>
+{/if}
+
 <AssetsDrawer />
+
+<Sequencer />
 
 <footer>
   <RecordButton />
@@ -35,6 +44,12 @@
   open={showEditName}
   onClose={() => {
     showEditName = false;
+  }}
+/>
+<BpmModal
+  open={showBpm}
+  onClose={() => {
+    showBpm = false;
   }}
 />
 

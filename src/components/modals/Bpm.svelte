@@ -6,14 +6,11 @@
   export let open = false;
   export let onClose;
 
-  let name = $board?.name || "";
+  let bpm = $board?.bpm || "";
 
   const submit = ({ id }) => async (e) => {
     e.preventDefault();
-    if (name.length === 0) {
-      return; // error
-    }
-    await Board.update(id, { name });
+    await Board.setBpm($board, bpm);
     onClose();
   };
 </script>
@@ -21,7 +18,7 @@
 <Modal {open} {onClose}>
   <form on:submit={submit($board)}>
     <label for="name">Name</label>
-    <input id="name" bind:value={name} />
+    <input id="name" bind:value={bpm} />
     <button type="submit">Update</button>
   </form>
 </Modal>

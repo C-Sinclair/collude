@@ -1,14 +1,11 @@
 import { derived, get, writable } from "svelte/store";
-import Board from "../lib/board";
-import { Firestore } from "../lib/firebase";
+import Board from "../lib/data/board";
 import Player from "../lib/player";
 
 /**
- * @typedef {import("../lib/board").Board} Board
+ * @typedef {import("../lib/data/board").Board} Board
  * @typedef {import('svelte/store').Readable<Board>} ReadableBoard
  */
-
-const collection = Firestore.collection("boards");
 
 /**
  * @type {import('svelte/store').Writable<string>}
@@ -27,15 +24,19 @@ function select(id) {
  */
 const board = derived(selectedBoard, async ($selected, set) => {
   if ($selected) {
-    const doc = collection.doc($selected);
+    const doc = Board.collection.doc($selected);
     const record = await doc.get();
     const data = record.data();
     set({ ...data, id: $selected });
     Player.create(data.assets);
+    console.log({ data });
+
     doc.onSnapshot((snapshot) => {
       const data = snapshot.data();
       set({ ...data, id: $selected });
       Player.create(data.assets);
+
+      console.log({ data });
     });
   }
 });

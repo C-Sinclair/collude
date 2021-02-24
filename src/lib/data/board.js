@@ -1,5 +1,5 @@
 import { push } from "svelte-spa-router";
-import { Firestore } from "./firebase";
+import { Firestore } from "../firebase";
 import Asset from "./asset";
 
 /**
@@ -8,6 +8,8 @@ import Asset from "./asset";
  * @property {string} Board.name
  * @property {Date} Board.created
  * @property {string[]} Board.assets
+ * @property {number} Board.bpm
+ * @property {{ id: string, index: number }[]} Board.tracks
  */
 
 const collection = Firestore.collection("boards");
@@ -75,11 +77,26 @@ async function addAsset(board, assetId) {
  * @returns {Promise<import("./asset").Asset[]>}
  */
 async function getAssets(board) {
-  console.log(`fetching assets for ${board.id}`);
   const assets = await Asset.getMany(board.assets);
-  console.log(`fetched assets`, assets);
   await Asset.preload(assets);
   return assets;
 }
 
-export default { create, fetch, get, update, addAsset, getAssets };
+/**
+ * @param {Board} board
+ * @param {number} bpm
+ */
+async function setBpm(board, bpm) {
+  await update(board.id, { ...board, bpm });
+}
+
+export default {
+  create,
+  fetch,
+  get,
+  update,
+  addAsset,
+  getAssets,
+  setBpm,
+  collection,
+};
